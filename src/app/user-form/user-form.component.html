@@ -28,6 +28,23 @@
     </div>
   </div>
 
+  <label>
+    Age:
+    <input type="number" formControlName="age" />
+  </label>
+  <div
+    *ngIf="userForm.get('age')?.touched && userForm.get('age')?.invalid"
+    style="color: red"
+  >
+    <div *ngIf="userForm.get('age')?.errors?.['required']">
+      Age is required.
+    </div>
+    <div *ngIf="userForm.get('age')?.errors?.['min'] || userForm.get('age')?.errors?.['max']">
+      Age must be over 18.
+    </div>
+  </div>
+  
+
   <ng-container *ngFor="let faveColor of faveColorGroups; let i = index">
     <div [formGroup]="faveColor">
       <label>
@@ -48,9 +65,14 @@
   <button type="button" (click)="addColor()">Add color</button>
   <button type="submit" [disabled]="userForm.invalid">Submit</button>
   <button type="button" (click)="onReset()">Reset</button>
+  <button type="button" (click)="goToUsers()">Go to User List</button>
+
 </form>
 
 <div *ngIf="submittedData" style="margin-top: 20px">
   <h3>Submitted Data</h3>
   <pre> {{ submittedData.name }} : {{ submittedData.email }}</pre>
 </div>
+
+
+<!-- allo ena input control me age kai na einai mono number ano tou 0 eos 90 mazi me validator!!!!! -->

@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { UserService } from '../user.service';
 
 @Component({
   standalone: true,
@@ -13,9 +15,20 @@ export class UserFormComponent {
 submittedData: any;
 
   private fb = inject(FormBuilder);
+  private router = inject(Router);
+  private userService = inject(UserService); 
+
   userForm = this.fb.group({
     name: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
+    age: [
+      null, 
+      [
+        Validators.required,
+        Validators.min(18),
+        Validators.max(99)
+      ]
+    ],
     faveColors: this.fb.array([]),
   });
 
@@ -40,12 +53,22 @@ submittedData: any;
       email: ''
     });
   }
+
   onSubmit() {
+    console.log(this.userForm);
+    
     if(this.userForm.valid){
       this.submittedData = this.userForm.getRawValue(),
-      console.log(this.userForm.getRawValue())
-      //TODO send them to a service
+      console.log(this.userForm.getRawValue());
+      const name1 = this.userForm.get('name')?.value as string;
+      const email = this.userForm.get('email')?.value as string;
+      //send them to a service
+      this.userService.addUser(0, name1, email);
+ 
     }
+  }
+  goToUsers() {
+    this.router.navigate(['/users']);
   }
 }
 

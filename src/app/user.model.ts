@@ -17,7 +17,7 @@ export interface Geo {
     bs: string;
   }
   
-  export interface User {
+  export interface ApiUser {
     id: number;
     name: string;
     username: string;
@@ -28,3 +28,8 @@ export interface Geo {
     company: Company;
   }
   
+  export interface User {
+    id: number;
+    name: string;
+    email: string;
+  }
